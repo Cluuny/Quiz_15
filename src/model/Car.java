@@ -1,12 +1,14 @@
 package model;
 
+import java.sql.Time;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class Car {
     private int numPlate;
     private LocalTime checkIn;
     private LocalTime checkOut;
-    private int minutesPermanence;
+    private long minutesPermanence;
     private int serviceCost;
 
     public Car(int numPlate, LocalTime checkIn) {
@@ -38,12 +40,12 @@ public class Car {
         this.checkOut = checkOut;
     }
 
-    public int getMinutesPermanence() {
+    public long getMinutesPermanence() {
         return minutesPermanence;
     }
 
     public void setMinutesPermanence(LocalTime chekIn, LocalTime chekOut) {
-        this.minutesPermanence = checkOut.getMinute();
+        this.minutesPermanence = chekIn.until(chekOut, ChronoUnit.MINUTES);
     }
 
     public int getServiceCost() {

@@ -5,12 +5,13 @@ import java.util.LinkedList;
 
 public class CashRegister {
     LinkedList<Car> carsRow = new LinkedList<Car>();
+    LinkedList<Car> carsExit = new LinkedList<Car>();
     private LocalTime timeArrival = LocalTime.of(5, 00);
     private int serviceTime = 1080;
     private int workTime = 0;
 
-    public String simulate() {
-        return "" + LocalTime.of(8, 00);
+    public String simulate(int totalAttendance) {
+        return "Cantidad de carros antendidos: " + totalAttendance + "\n" + "El tiempo promedio de permanencia en el parqueadero fue de: " + averageMinutes();
     }
 
     public int generateRandomMinutes(String condition) {
@@ -49,10 +50,19 @@ public class CashRegister {
             workTime += randomPermanence;
             timeArrival = timeArrival.plusMinutes(randomPermanence);
             cars.get(iCounter).setCheckOut(timeArrival);
-            System.out.println(cars.get(iCounter).getCheckOut());
-            // cars.get(iCounter).getCheckOut().minusMinutes(randomPermanence);
+            cars.get(iCounter).setMinutesPermanence(cars.get(iCounter).getCheckOut(), cars.get(iCounter).getCheckIn());
+            carsExit.add(cars.get(iCounter));
+            cars.poll();
             iCounter++;
         }
         return carsRow;
+    }
+
+    public long averageMinutes() {
+        long average = 0;
+        for (Car car : carsExit) {
+            average += car.getMinutesPermanence();
+        }
+        return average / carsExit.size();
     }
 }

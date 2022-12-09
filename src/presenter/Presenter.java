@@ -1,11 +1,15 @@
 package presenter;
 
 import view.*;
+
+import java.util.LinkedList;
+
 import model.*;
 
 public class Presenter {
     View view = new View();
     CashRegister parking = new CashRegister();
+    LinkedList<Car> carsRow = new LinkedList<Car>();
 
     // implementar objetos detipo cliente
 
@@ -14,7 +18,10 @@ public class Presenter {
         view.print("---------------------");
         switch (opt) {
             case 1:
-                view.print("" + parking.carPermanence(parking.carsArrival()));
+                carsRow = parking.carsArrival();
+                int sizeCarsRow = carsRow.size();
+                parking.carPermanence(carsRow);
+                view.print("" + parking.simulate(sizeCarsRow));
                 break;
             case 2:
                 view.print("Saliendo...");
